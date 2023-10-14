@@ -21,6 +21,7 @@ void count_till(int n){
 }
 
 int main(){
+    cout<<"enter the numbrer"<<endl;
     int num;
     cin>>num;
     count_till(num);
