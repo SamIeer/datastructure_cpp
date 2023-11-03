@@ -16,10 +16,28 @@ double e(int x,int n){
     }
 }
 
+
+
+//Taylor series 2nd apporach 
+//Reducing the number of multiplications for the reducing the time complexity
+
+double e_2(int x,int n){
+    static double s=1;
+    if(n==0){
+        return s;
+    }
+    else{
+        s=1+x*s/n;
+        return e_2(x,n-1);
+    }
+}
+
+//main function
 int main(){
     int x,n;
     cout<<"Enter the value of x:"<<endl;
     cin>>x>>n;
-    cout<<e(x,n);
+    cout<<e(x,n)<<endl;
+    cout<<"\ne("<<x<<","<<n<<")="<<e_2(x,n)<<endl;
     return 0;
 }
