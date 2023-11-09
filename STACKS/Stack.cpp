@@ -86,6 +86,41 @@ int Stack::stackTop(){
 
 int main(){
     int A[] = {1,2,3,5,7,9};
-    Stack stk(sizof(A)/sizeof(A[0]));
+    Stack stk(sizeof(A)/sizeof(A[0]));
+    
+    //inserting element into the stack
+    for (int i=0;i<sizeof(A)/sizeof(A[0]); i++){
+    stk.push(A[i]);}
+
+    stk.push(11);
+    
+    //checking whether the stack is full or not
+    cout<<"STACK :"<< stk.isFull() << endl;
+
+    cout<< "stack :"<< flush;
+    stk.display();
+    
+    //reterving the element of the given index
+    cout<<"peek at 0th:"<<stk.peek(0)<<endl;
+    cout<<"peek at 3rd:"<<stk.peek(3)<<endl;
+    cout<<"peek at 10th"<<stk.peek(10)<<endl;
+    
+    //reterving the element of top 
+    cout<<"Top element:"<<stk.stackTop()<<endl;
+    
+    //Poping the element from stack
+    cout<<"popped out elements:"<<flush;
+    for(int i=0;i<sizeof(A)/sizeof(A[0]);i++){
+        cout<<stk.pop()<<", "<<flush;
+    }
+    cout<<endl;
+
+    stk.pop();
+    
+    //checking wether the stack is empty or not
+    cout<<"Stack empty:"<<stk.isEmpty();
+
+    return 0;
+
 }
 
