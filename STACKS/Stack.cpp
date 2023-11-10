@@ -1,5 +1,6 @@
 //Stacks Implementation
 #include <iostream>
+#include <cstring>
 using namespace std;
 class Stack {
     private:
@@ -8,6 +9,7 @@ class Stack {
         int* S;
     public:
         Stack(int size);
+
         ~Stack();
         void push(int x);
         int pop();
@@ -16,15 +18,14 @@ class Stack {
         int isEmpty();
         void display();
         int stackTop();
-}
+};
 Stack::Stack(int size){
-    this->size = size;
-    top = -1;
-    S = new int[this->size];}
+        this->size = size;
+        top = -1;
+        S = new int[this->size];};
 
 Stack::~Stack(){
-    delete[] S;
-}
+            delete[] S;};
 
 void Stack::push(int x){
     if(isFull()){
@@ -71,7 +72,7 @@ int Stack::isEmpty(){
 }
 
 void Stack::display(){
-    for(int i=top; i>=0;i++){
+    for(int i=top; i>=0;i--){
         cout<<S[i]<<" | "<<flush;
     }
     cout<<endl;
@@ -84,6 +85,25 @@ int Stack::stackTop(){
     return S[top];
 }
 
+//parenthsis matching
+bool isBalanced(char *exp){
+    Stack stk((int)strlen(exp));
+    for(int i=0;i<strlen(exp);i++){
+        if(exp[i]=='('){
+            stk.push(exp[i]);
+        }
+        else if(exp[i]==')'){
+            if(stk.isEmpty()){
+                return false;
+            }
+            else{
+            stk.pop();}
+        }
+    }
+    return stk.isEmpty() ? true : false;
+    }
+
+
 int main(){
     int A[] = {1,2,3,5,7,9};
     Stack stk(sizeof(A)/sizeof(A[0]));
@@ -95,7 +115,7 @@ int main(){
     stk.push(11);
     
     //checking whether the stack is full or not
-    cout<<"STACK :"<< stk.isFull() << endl;
+    cout<<"STACK full :"<< stk.isFull() << endl;
 
     cout<< "stack :"<< flush;
     stk.display();
@@ -118,8 +138,16 @@ int main(){
     stk.pop();
     
     //checking wether the stack is empty or not
-    cout<<"Stack empty:"<<stk.isEmpty();
+    cout<<"Stack empty:"<<stk.isEmpty()<<endl;
 
+    cout<<"-----------------------------------------------------"<<endl;
+    char E[]="((a+b)*(r-e))";
+    cout<<isBalanced(E)<<endl;
+     
+      char f[]="((a+b)-(r-e)))";
+    cout<<isBalanced(f)<<endl;
+
+ 
     return 0;
 
 }
