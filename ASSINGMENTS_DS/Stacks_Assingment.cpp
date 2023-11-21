@@ -159,3 +159,64 @@ int main(){
     cout<<"sorted Stack"<<endl;
     S.display();
 }
+
+
+//Question 4
+#include <iostream>
+#include <vector>
+#include <stack>
+
+int findMaxLRProductIndex(const std::vector<int>& arr) {
+    int n = arr.size();
+    std::vector<int> L(n, 0), R(n, 0);
+
+    // Using stacks to find L(i) for each index
+    std::stack<int> st;
+    for (int i = 0; i < n; ++i) {
+        while (!st.empty() && arr[st.top()] <= arr[i]) {
+            st.pop();
+        }
+        L[i] = (st.empty()) ? 0 : (st.top() + 1);
+        st.push(i);
+    }
+
+    // Clear the stack for R(i)
+    while (!st.empty()) {
+        st.pop();
+    }
+
+    // Using stacks to find R(i) for each index
+    for (int i = n - 1; i >= 0; --i) {
+        while (!st.empty() && arr[st.top()] <= arr[i]) {
+            st.pop();
+        }
+        R[i] = (st.empty()) ? 0 : (st.top() + 1);
+        st.push(i);
+    }
+
+    // Calculate LRProduct(i) and find the index with maximum LRProduct
+    int maxIndex = 0;
+    long long maxLRProduct = 0;
+    for (int i = 0; i < n; ++i) {
+        long long currentLRProduct = static_cast<long long>(L[i]) * R[i];
+        if (currentLRProduct > maxLRProduct) {
+            maxLRProduct = currentLRProduct;
+            maxIndex = i;
+        }
+    }
+
+    return maxIndex;
+}
+
+int main() {
+    // Sample input array
+    std::vector<int> arr = {1, 1, 1, 1, 0, 1, 1, 1, 1, 1};
+
+    // Find the index with the maximum LRProduct
+    int resultIndex = findMaxLRProductIndex(arr);
+
+    // Output the result
+    std::cout << "Index with maximum LRProduct: " << resultIndex << std::endl;
+
+    return 0;
+}
