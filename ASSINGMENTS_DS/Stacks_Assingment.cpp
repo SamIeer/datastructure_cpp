@@ -4,7 +4,7 @@
 // class Stack{
 //     private:
 //      int size;
-//      int top;
+//      int stop;
 //      int *S;
 //     public:
 //      Stack(int size);
@@ -15,7 +15,7 @@
 // };
 // Stack::Stack(int size){
 //     this->size = size;
-//     top=-1;
+//     stop=-1;
 //     S = new int[size];
 // }
 
@@ -24,30 +24,30 @@
 // }
 
 // void Stack::push(int x){
-//     if(top==size-1){
+//     if(stop==size-1){
 //         cout<<"Stack Overflow"<<endl;
 //     }
 //     else{
-//         top++;
-//         S[top]=x;
+//         stop++;
+//         S[stop]=x;
         
 //     }
 // }
 
 // int Stack::pop(){
 //     int x=-1;
-//     if(top==-1){
+//     if(stop==-1){
 //         cout<<"Stack Underflow"<<endl;
 //     }
 //     else{
-//         x=S[top];
-//         top--;
+//         x=S[stop];
+//         stop--;
 //     }
 //     return x;
 // }
 
 // void Stack::display(){
-//     for(int i=top;i>=0;i--){
+//     for(int i=stop;i>=0;i--){
 //         cout<<S[i]<<flush;
 //     }
 //     cout<<endl;
@@ -68,66 +68,79 @@
 
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
-// class Stack{
-//     private:
-//      int size;
-//      int top;
-//      int *S;
-//     public:
-//      Stack(int size);
-//      ~Stack();
-//      void push(int x);
-//      int pop();
-//      void display();
-//      void sort();
-//      void insertSorted(int x);
-// };
-// Stack::Stack(int size){
-//     this->size = size;
-//     top=-1;
-//     S = new int[size];
-// }
+class Stack{
+    private:
+     int size;
+     int top;
+     int *S;
+    public:
+     Stack(int size);
+     ~Stack();
+     void push(int x);
+     int pop();
+     bool isEmpty();
+     void display();
+     int stop();
+    //  void sort();
+    //  void insertSorted(int x);
+};
+Stack::Stack(int size){
+    this->size = size;
+    top=-1;
+    S = new int[size];
+}
 
-// Stack::~Stack(){
-//     delete [] S;
-// }
+Stack::~Stack(){
+    delete [] S;
+}
 
-// void Stack::push(int x){
-//     if(top==size-1){
-//         cout<<"Stack Overflow"<<endl;
-//     }
-//     else{
-//         top++;
-//         S[top]=x;
+bool Stack:: isEmpty(){
+    if(top==-1){
+        return true;}
+     return false;
+}
+
+int Stack:: stop(){
+    return S[top];
+
+}
+void Stack::push(int x){
+    if(top==size-1){
+        cout<<"Stack Overflow"<<endl;
+    }
+    else{
+        top++;
+        S[top]=x;
         
-//     }
-// }
+    }
+}
 
-// int Stack::pop(){
-//     int x=-1;
-//     if(top==-1){
-//         cout<<"Stack Underflow"<<endl;
-//     }
-//     else{
-//         x=S[top];
-//         top--;
-//     }
-//     return x;
-// }
+int Stack::pop(){
+    int x=-1;
+    if(top==-1){
+        cout<<"Stack Underflow"<<endl;
+    }
+    else{
+        x=S[top];
+        top--;
+    }
+    return x;
+}
 
-// void Stack::display(){
-//     for(int i=top;i>=0;i--){
-//         cout<<S[i]<<"<-"<<flush;
-//     }
-//     cout<<endl;
-// }
+void Stack::display(){
+    for(int i=top;i>=0;i--){
+        cout<<S[i]<<"<-"<<flush;
+    }
+    cout<<endl;
+}
 
 // // Ouestion 2: Sorting a stack using recursion
 // // Sorting a stack using recursion
 // void Stack::sort() {
-//     if (top != -1) {
+//     if (stop != -1) {
 //         int temp = pop();
 //         sort();
 //         insertSorted(temp);
@@ -135,7 +148,7 @@ using namespace std;
 // }
 
 // void Stack::insertSorted(int x) {
-//     if (top == -1 || x > S[top]) {
+//     if (stop == -1 || x > S[stop]) {
 //         push(x);
 //         return;
 //     }
@@ -162,47 +175,45 @@ using namespace std;
 
 
 //Question 4
-#include <iostream>
-#include <vector>
-#include <stack>
 
 
-int findMaxLRProductIndex(const std::vector<int>& arr) {
-    int n = arr.size();
-    std::vector<int> L(n, 0), R(n, 0);
 
-    // Using stacks to find L(i) for each index
-    std::stack<int> st;
+int LRproduct(int* arr, int n) {
+    vector<int> left(n, 0);
+    vector<int> right(n, 0);
+    Stack s(n);
+
+    // For the left side index
     for (int i = 0; i < n; ++i) {
-        while (!st.empty() && arr[st.top()] <= arr[i]) {
-            st.pop();
+        while (!s.isEmpty() && arr[s.stop()] <= arr[i]) {
+            s.pop();
         }
-        L[i] = (st.empty()) ? 0 : (st.top() + 1);
-        st.push(i);
+        left[i] = s.isEmpty() ? 0 : s.stop() + 1;
+        s.push(i);
     }
 
-    // Clear the stack for R(i)
-    while (!st.empty()) {
-        st.pop();
+    // Clearing the stack for right indices
+    while (!s.isEmpty()) {
+        s.pop();
     }
 
-    // Using stacks to find R(i) for each index
     for (int i = n - 1; i >= 0; --i) {
-        while (!st.empty() && arr[st.top()] <= arr[i]) {
-            st.pop();
+        while (!s.isEmpty() && arr[s.stop()] <= arr[i]) {
+            s.pop();
         }
-        R[i] = (st.empty()) ? 0 : (st.top() + 1);
-        st.push(i);
+        right[i] = s.isEmpty() ? 0 : s.stop() + 1;
+        s.push(i);
     }
 
-    // Calculate LRProduct(i) and find the index with maximum LRProduct
-    int maxIndex = 0;
-    long long maxLRProduct = 0;
+    // Calculate LRProduct and find the index with maximum LRProduct
+    int maxIndex = -1;
+    long long maxProduct = -1;
+
     for (int i = 0; i < n; ++i) {
-        long long currentLRProduct = static_cast<long long>(L[i]) * R[i];
-        if (currentLRProduct > maxLRProduct) {
-            maxLRProduct = currentLRProduct;
-            maxIndex = i;
+        long long product = static_cast<long long>(left[i]) * right[i];
+        if (product > maxProduct) {
+            maxProduct = product;
+            maxIndex = i + 1; 
         }
     }
 
@@ -211,10 +222,11 @@ int findMaxLRProductIndex(const std::vector<int>& arr) {
 
 int main() {
     // Sample input array
-    std::vector<int> arr = {1, 1, 1, 1, 0, 1, 1, 1, 1, 1};
+    int arr[] = {1, 1, 1, 1, 0, 1, 1, 1, 1, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
 
     // Find the index with the maximum LRProduct
-    int resultIndex = findMaxLRProductIndex(arr);
+    int resultIndex = LRproduct(arr, n);
 
     // Output the result
     std::cout << "Index with maximum LRProduct: " << resultIndex << std::endl;
