@@ -19,15 +19,18 @@ void create(int A[],int n){
         last=t;
     }
 }
+
+//Counting the total number of element in linked list
 int count(struct Node *p){
     int l=0;
-    while(){
+    while(p){
         l++;
         p=p->next;
     }
     return l;
 }
 
+//finding the sum of LInked List
 int sum(struct Node* p){
     int s=0;
     while(p!=NULL){
@@ -37,10 +40,22 @@ int sum(struct Node* p){
     return s;
 }
 
+//finding max element in LInled LIst
+int Max(struct Node*p){
+    int max=INT16_MIN;
+    while(p){
+        if(p->data>max)
+           max=p->data;
+        p=p->next;
+    }
+    return max;
+}
+
 int main(){
     int A[]={3,4,2,6,98,3,1};
     create(A,7);
     cout<<"count :"<<count(first)<<endl;
     cout<<"sum :"<<sum(first)<<endl;
+    cout<<"Max :"<<Max(first)<<endl;
 return 0;
 }
