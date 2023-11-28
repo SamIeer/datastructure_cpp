@@ -21,6 +21,7 @@ void create(int A[],int n){
     }
 }
 
+//searching algorithm 
 struct Node* search(struct Node*p,int key){
     struct Node *q;
     while(p!=NULL){
