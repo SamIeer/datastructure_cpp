@@ -37,11 +37,24 @@ struct Node* search(struct Node*p,int key){
         return 0;
     }
 
+// //checking wether the LL is sorted or not
+int Issorted(struct Node *p ){
+    int x=-65536;
+    while(p!=NULL){
+        if(p->data < x)
+        return 0;
+        x=p->data;
+        p=p->next;
+    }
+    return 1;
+}
+
 int main(){
     int arr[]={34,34,21,53,764,98,9,23};
     int n=sizeof(arr)/sizeof(arr[0]);
     create(arr,n);
-    struct Node *temp=search(first,34);
+    struct Node *temp=search(first,21);
     cout<<temp->data<<endl;
+    cout<<Issorted(first);
     return 0;
 }

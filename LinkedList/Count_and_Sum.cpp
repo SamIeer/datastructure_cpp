@@ -52,6 +52,8 @@ int Max(struct Node*p){
 }
 
 
+
+
 int main(){
     int A[]={3,4,2,6,98,3,1};
     create(A,7);
