@@ -36,7 +36,6 @@ struct Node* search(struct Node*p,int key){
     }
         return 0;
     }
-
 // //checking wether the LL is sorted or not
 int Issorted(struct Node *p ){
     int x=-65536;
