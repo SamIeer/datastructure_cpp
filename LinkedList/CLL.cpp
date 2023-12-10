@@ -27,7 +27,7 @@ CircularLinkedList::CircularLinkedList(int *A,int n){
         t->next=tail->next;
         tail->next=t; tail=t;
     }
-}
+};
 
 void CircularLinkedList::Display(){
     Node* p=head;
@@ -61,6 +61,7 @@ int length(struct Node *p){
     return len;
 }
 
+//Deleting element from circular linked list
 int delete(struct Node *p,int index){
     struct Node *q;
     int i,x;
@@ -89,6 +90,7 @@ int delete(struct Node *p,int index){
     }
     return x;
 }
+
 
 
 
