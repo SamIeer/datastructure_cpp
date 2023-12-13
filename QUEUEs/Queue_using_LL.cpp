@@ -96,5 +96,6 @@ int main(){
     cout<<q.dequeue()<<endl;
     q.enqueue(56);
     q.display();
+    cout<<q.isEmpty();
     return 0;
 }

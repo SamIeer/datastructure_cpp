@@ -11,6 +11,7 @@ void TOH(int n,int A,int B,int C){
 }
 
 int main(){
+    cout<<"toh is"<<endl;
     TOH(3,1,2,3);
     return 0;
 }
