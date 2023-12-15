@@ -41,10 +41,31 @@ void RemoveDuplicate(struct Node *p){
     }
 }
 
+void Reversel(struct Node *p){
+    int *A,i=0;
+    struct Node *q=p;
+    A=(int *)malloc(sizeof(int)*sizeof(p));
+    while(q!=NULL){
+        A[i]=q->data;
+        q=q->next;
+        i++;
+    }
+    q=p;
+    i--;
+    while(q!=NULL){
+        q->data=A[i];
+        q=q->next;
+        i--;
+    }
+}
+
 int main(){
     int A[]={10,20,20,30,40,50,50,60,70,70,70};
     create(A,11);
     RemoveDuplicate(first);
+    Display(first);
+    printf("\n");
+    Reversel(first);
     Display(first);
     return 0;
 }
