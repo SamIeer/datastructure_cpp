@@ -37,15 +37,26 @@ void Display(struct Node *p){
     }
 }
 
-void Insert_end(struct Node *p,int x){
-    struct Node *t;
-    t=new Node[sizeof(struct Node)];
-    t->data=x;
-    while(p->next!=nullptr){
-            p=p->next;
+void Insert_end(struct Node*& p, int x) {
+    // Create a new node and allocate memory
+    struct Node* t = new Node(x);
+
+    if (p == nullptr) {
+        // If the linked list is empty, make the new node the head
+        p = t;
+        return;
     }
-    p->next=t;
+
+    // Traverse to the end of the linked list
+    Node* current = p;
+    while (current->next != nullptr) {
+        current = current->next;
+    }
+
+    // Insert the new node at the end
+    current->next = t;
 }
+
 
 
 
