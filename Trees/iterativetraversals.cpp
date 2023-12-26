@@ -22,6 +22,9 @@ class Tree{
       void Inorder(){ Inorder(root);}
       void iterativePostorder(Node* p);
       void iterativePostorder(){iterativePostorder(root);}
+
+      void Levelorder(Node *p);
+      void Levelorder() {Levelorder(root);}
 };
 
 Tree::Tree(){
@@ -123,13 +126,35 @@ void Tree::iterativePostorder(Node *p){
  cout<<endl;
 }
 
+
+//Level Order
+void Tree::Levelorder(Node *p){
+    queue<Node*>q;
+    cout<<p->data<<", "<<flush;
+    q.emplace(p);
+
+    while(!q.empty()){
+        p=q.front();
+        q.pop();
+
+        if(p->lchild){
+            cout<<p->lchild->data<<", "<<flush;
+            q.emplace(p->lchild);
+        }
+        if(p->rchild){
+            cout<<p->rchild->data<<", "<<flush;
+            q.emplace(p->rchild);
+        }
+    }
+}
+
 int main(){
     Tree bt;
 
     bt.createTree();
     cout<<endl;
 
-     cout<<"Inorder :"<<flush;
+     cout<<"Pre order:"<<flush;
     bt.iterativePreorder();
     cout<<endl;
 
@@ -137,8 +162,12 @@ int main(){
     bt.Inorder();
     cout<<endl;
 
-     cout<<"Inorder :"<<flush;
+    cout<<"Post order :"<<flush;
     bt.iterativePostorder();
+    cout<<endl;
+
+    cout<<"Level order :"<<flush;
+    bt.Levelorder();
     cout<<endl;
 
     return 0;
