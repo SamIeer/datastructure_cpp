@@ -19,7 +19,7 @@ int Binary_Search(struct Array arr,int key){
     l=0;
     h=arr.length -1;
     while (l<=h){
-        mid = (l+h)/2;
+        mid = (l+h)/2; 
         if(key==arr.A[mid]){
             return mid;
         }

@@ -19,7 +19,7 @@ void create(int A[],int n){
         t->next=NULL;
         last->next=t;
         last=t;
-    }
+    } 
 }
 
 int count(struct Node *p){
