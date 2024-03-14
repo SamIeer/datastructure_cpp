@@ -1,173 +1,237 @@
-// #include <iostream>
-// #include <vector>
+//Answer 1
+#include <iostream>
+using namespace std;
 
-// class PriorityQueue {
-// private:
-//     std::vector<int> arr;
-
-//     // Helper function to maintain the heap property
-//     void heapifyUp(int index) {
-//         while (index > 0) {
-//             int parentIndex = (index - 1) / 2;
-//             if (arr[index] > arr[parentIndex]) {
-//                 std::swap(arr[index], arr[parentIndex]);
-//                 index = parentIndex;
-//             } else {
-//                 break;
-//             }
-//         }
-//     }
-
-//     // Helper function to maintain the heap property
-//     void heapifyDown(int index) {
-//         int leftChild = 2 * index + 1;
-//         int rightChild = 2 * index + 2;
-//         int largest = index;
-
-//         if (leftChild < arr.size() && arr[leftChild] > arr[largest]) {
-//             largest = leftChild;
-//         }
-
-//         if (rightChild < arr.size() && arr[rightChild] > arr[largest]) {
-//             largest = rightChild;
-//         }
-
-//         if (largest != index) {
-//             std::swap(arr[index], arr[largest]);
-//             heapifyDown(largest);
-//         }
-//     }
-
-// public:
-//     // Function to insert an element into the priority queue
-//     void push(int value) {
-//         arr.push_back(value);
-//         heapifyUp(arr.size() - 1);
-//     }
-
-//     // Function to remove and return the maximum element from the priority queue
-//     int pop() {
-//         if (arr.empty()) {
-//             throw std::out_of_range("Priority queue is empty");
-//         }
-
-//         int maxValue = arr[0];
-//         arr[0] = arr.back();
-//         arr.pop_back();
-//         heapifyDown(0);
-
-//         return maxValue;
-//     }
-
-//     // Function to check if the priority queue is empty
-//     bool empty() const {
-//         return arr.empty();
-//     }
-
-//     // Function to get the size of the priority queue
-//     size_t size() const {
-//         return arr.size();
-//     }
+// class Node{
+//     public:
+//       int data;
+//       Node*next;
 // };
 
-// int main() {
-//     PriorityQueue pq;
+// class Queue{
+//     private:
+//       Node *front;
+//       Node *rear;
+//     public:
+//      Queue();
+//      ~Queue();
+//      void enqueue(int x);
+//      int dequeue();
+//      bool isEmpty();
+//      void display();
+// };
 
-//     // Insert elements into the priority queue
-//     pq.push(10);
-//     pq.push(5);
-//     pq.push(20);
-//     pq.push(15);
-
-//     // Print and remove elements from the priority queue
-//     while (!pq.empty()) {
-//         std::cout << pq.pop() << " ";
-//     }
-
-//     return 0;
+// Queue::Queue(){
+//     front = nullptr;
+//     rear = nullptr;
 // }
 
-#include <iostream>
+// void Queue::enqueue(int x){
+//     Node*t = new Node;
+//     if(t == nullptr){
+//         cout<<"Queue Overflow"<<endl;
+//     }
+//     else{
+//         t -> data = x;
+//         t -> next = nullptr;
+//         if(front == nullptr){
+//             front = t;
+//             rear = t;
+//         }else {
+//             rear->next = t;
+//             rear = t;
+//         }
+//     }
+// }
 
-// Node structure for the binary tree
-struct TreeNode {
-    int data;
-    TreeNode* left;
-    TreeNode* right;
+// int Queue::dequeue(){
+//     int x = -1;
+//     Node * p;
+//     if(isEmpty()){
+//         cout<<"Queue Underflow"<<endl;
+//     }
+//     else{
+//         p = front;
+//         front = front -> next;
+//         x = p-> data;
+//         delete p;
+//     }
+//     return x;
+// }
 
-    TreeNode(int val) : data(val), left(nullptr), right(nullptr) {}
+// bool Queue::isEmpty(){
+//     if(front == nullptr){
+//         return true;
+//     }
+//     return false;
+// }
+
+// Queue::~Queue(){
+//     Node *p = front ;
+//     while(front){
+//         front = front -> next;
+//         delete p;
+//         p = front;
+//     }
+// }
+
+// void Queue::display(){
+//     Node*p=front;
+//     while(p){
+//         cout<<p->data<<flush;
+//         p=p->next;
+//         if(p!=nullptr){
+//             cout<<"<-"<<flush;
+//         }
+//     }
+//     cout<<endl;
+// }
+
+// int main(){
+//     int A[] = {34,53,12,76,86,345};
+//     int n=sizeof(A)/sizeof(A[0]);
+//     Queue q;
+//     for(int i=0;i<n;i++){
+//         q.enqueue(A[i]);
+//     }
+//     q.display();
+//     q.dequeue();
+//     q.dequeue();
+//     q.display();
+// }
+
+
+//Answer 2;
+// class StackNode{
+//     public:
+//       int data;
+//       StackNode* next;
+
+//       StackNode(int data){
+//         this->data = data;
+//         this->next = nullptr;
+//       }
+// };
+
+// class Stack{
+//     private:
+//      StackNode* top;
+
+//     public:
+//        Stack(){
+//        top = nullptr;}
+     
+//       //push operation 
+//       void push(int data){
+//         StackNode* newNode = new StackNode(data);
+//         newNode->next = top;
+//         top = newNode;
+//       }
+
+//       int pop(){
+//         if(isEmpty()){
+//             cout<<"stack Underflow"<<endl;
+//             return -1;
+//         }
+//         int data = top->data;
+//         StackNode* temp = top;
+//         top = top->next;
+//         delete temp;
+//         return data;
+//       }
+
+//       bool isEmpty(){
+//         return top == nullptr;
+//       }
+
+//       int peek(){
+//         if(isEmpty()){
+//             cout<<"stack is Empty:"<<endl;
+//             return -1;
+//         }
+//         return top->data;
+//       }
+// };
+
+
+// class Queue{
+//     private:
+//       Stack s1;
+//       Stack s2;
+
+//     public:
+//       void enqueue(int x){
+//          s1.push(x);
+//       }
+//       int dequeue(){
+//         if(s2.isEmpty()){
+//             cout<<"Queue underflow"<<endl;
+//             return -1;
+//         }
+//         if(s2.isEmpty()){
+//             while(!s1.isEmpty()){
+//                 s2.push(s1.pop());
+//             }
+//         }
+//          return s2.pop();
+//       }
+
+//       bool isEmpty(){
+//         return s1.isEmpty() && s2.isEmpty();
+//       }
+
+//       void display() {
+//          Stack tempStack; // Create a temporary stack
+
+//         // Transfer elements from s2 to tempStack and print them
+//         while (!s2.isEmpty()) {
+//             int element = s2.peek();
+//             tempStack.push(element);
+//             cout << element << "<-" << endl;
+//             s2.pop();
+//            }
+//         // Transfer elements back to s2
+//         while (!tempStack.isEmpty()) {
+//             s2.push(tempStack.peek());
+//             tempStack.pop();
+//         }
+//      }
+// };
+
+// int main(){
+//     Queue q;
+//     q.enqueue(10);
+//     q.enqueue(30);
+//     q.enqueue(45);
+//     q.enqueue(42);
+
+//     cout<<"Queue is :"<<endl;
+//     q.display();
+// }
+
+class Circular_Queue{
+    private:
+     int size;
+     int front;
+     int rear;
+     int *CQ;
+    public:
+      Circular_Queue(int size);
+      ~Circular_Queue();
+      bool isFull();
+      bool isEmpty();
+      void enqueue(int x);
+      int dequeue();
+      void display();
 };
 
-// Function to insert a node into a binary tree
-void insertBinaryTree(TreeNode*& root, int value) {
-    if (root == nullptr) {
-        root = new TreeNode(value);
-        return;
-    }
-
-    // Simple insertion: alternating between left and right subtrees
-    if (root->left == nullptr) {
-        insertBinaryTree(root->left, value);
-    } else if (root->right == nullptr) {
-        insertBinaryTree(root->right, value);
-    } else {
-        // If both left and right are already occupied, go to the left subtree
-        insertBinaryTree(root->left, value);
-    }
+Circular_Queue::Circular_Queue(int size){
+    this->size = size;
+    front = 0;
+    rear = 0;
+    CQ = new int[size];
 }
 
-// Function to insert a node into a binary search tree (BST)
-void insertBST(TreeNode*& root, int value) {
-    if (root == nullptr) {
-        root = new TreeNode(value);
-        return;
-    }
-
-    // Insert into the left subtree if the value is smaller
-    if (value < root->data) {
-        insertBST(root->left, value);
-    }
-    // Insert into the right subtree if the value is larger
-    else {
-        insertBST(root->right, value);
-    }
+Circular_Queue::~Circular_Queue(){
+    delete [] CQ;
 }
-
-// Function to traverse a binary tree in-order
-void inOrderTraversal(TreeNode* root) {
-    if (root != nullptr) {
-        inOrderTraversal(root->left);
-        std::cout << root->data << " ";
-        inOrderTraversal(root->right);
-    }
-}
-
-int main() {
-    TreeNode* binaryTreeRoot = nullptr;
-    TreeNode* bstRoot = nullptr;
-    int A[]={14,16,17,29,34,36,10};
-    for(int i=0;i<sizeof(A)/sizeof(A[0]);i++){
-        insertBinaryTree(binaryTreeRoot, A[i]);
-    };
-
-
-    int B[]={10,16,26,45,6,7};
-    for(int i=0;i<sizeof(A)/sizeof(A[0]);i++){
-        insertBST(bstRoot, B[i]);
-    };
-
-    // Traverse and print the elements of the binary tree in-order
-    std::cout << "Binary Tree In-Order Traversal: ";
-    inOrderTraversal(binaryTreeRoot);
-    std::cout << std::endl;
-
-    // Traverse and print the elements of the BST in-order
-    std::cout << "BST In-Order Traversal: ";
-    inOrderTraversal(bstRoot);
-    std::cout << std::endl;
-
-    return 0;
-}
-
-
-
