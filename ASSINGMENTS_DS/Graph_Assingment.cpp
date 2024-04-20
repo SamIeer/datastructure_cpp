@@ -1,106 +1,15 @@
-// #include <iostream>
-// #define I 32767  //INFINITY
-// #define V 7 // # of vertices in graph
-// #define E 9 // # of edges in graph
 
-// using namespace std;
-
-// void PrintMST(int T[][V-1], int A[][E]){
-//     cout << "\nMinimum cost spanning Tree Edges\n" << endl;
-//     for (int i {0}; i<V-1; i++){
-//         cout << "[" << T[0][i] << "]----[" << T[1][i] << "]" << endl;
-//     }
-//     cout << endl;
-// }
-
-// //set operations: UNion and Find
-// void Union(int u,int v,int s[]){
-//     if (s[u] < s[v]){
-//         s[u] += s[v];
-//         s[v] = u;
-//     }else {
-//         s[v] += s[u];
-//         s[u] = v;
-//     }
-// }
-
-// int Find(int u, int s[]){
-//     int x = u;
-//     int v = 0;
-
-//     while (s[x] > 0){
-//         x = s[x];
-//     }
-
-//     while(u != x){
-//         v = s[u];
-//         s[u] = x;
-//         u = v;
-//     }
-//     return x;
-// }
-
-// void KruskalsMCST(int A[3][9]){
-//     int T[2][V-1];    //solution array
-//     int track[E] {0}; //Track edges that are included in the solution
-//     int set[V+1] = {-1,-1,-1,-1,-1,-1,-1,-1 }; // array for finding cycle
-
-//     int i {0};
-//     while (i < V-1){
-//         int min =I;
-//         int u {0};
-//         int v {0};
-//         int k {0};
-
-//         //Find a minumum cost edge from full graph 
-//         for (int j {0}; j<E; j++){
-//             if (track[j] == 0 && A[2][j] < min){
-//                 min = A[2][j];
-//                 u = A[2][j];
-//                 v = A[1][j];
-//                 k = j;
-//             }
-//         }
-
-//         //check if the selected min cost edge (u ,v) forming a cycle or not
-//         if(Find(u , set) != Find(v, set)){
-//             T[0][i] = u;
-//             T[1][i] = v;
-            
-//             //perform union
-//             Union(Find(u,set), Find(v, set), set);
-//             i++;
-//         }
-//         track[k] = 1; //k edge is considered
-//     }
-//     PrintMST(T,A);
-// }
-
-// int main(){
-//     int edges[3][9] = {
-//           {1,1,2,2,3,4,4,5,5},
-//           {2,6,3,7,4,5,7,6,7},
-//           {25,5,12,10,8,16,14,20,18}
-//     };
-//     KruskalsMCST(edges);
-
-//     return 0;
-// }
-
-// Answer 3:
 #include <iostream>
 #include <vector>
 #include <queue>
 #include <climits>
 
 using namespace std;
-
 // Structure to represent an edge
 struct Edge {
     int dest;
     int weight;
 };
-
 // Function to find the shortest path from a source vertex to all other vertices using Dijkstra's algorithm
 vector<int> dijkstra(vector<vector<Edge>>& graph, int source) {
     int V = graph.size(); // Number of vertices
@@ -165,6 +74,102 @@ int main() {
     cout << "Shortest distances from source vertex " << source << " to all other vertices:" << endl;
     for (int i = 0; i < V; ++i) {
         cout << "Vertex " << i << ": " << shortestDistances[i] << endl;
+    }
+
+    return 0;
+}
+
+
+//Answer 2:
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+// Structure to represent an edge
+struct Edge {
+    int src, dest, weight;
+};
+// Structure to represent a subset for union-find
+struct Subset {
+    int parent;
+    int rank;
+};
+// Comparator function to sort edges based on weight
+bool compareEdges(const Edge& a, const Edge& b) {
+    return a.weight < b.weight;
+}
+// Find operation of union-find (with path compression)
+int find(vector<Subset>& subsets, int i) {
+    if (subsets[i].parent != i) {
+        subsets[i].parent = find(subsets, subsets[i].parent);
+    }
+    return subsets[i].parent;
+}
+// Union operation of union-find (with union by rank)
+void Union(vector<Subset>& subsets, int x, int y) {
+    int xroot = find(subsets, x);
+    int yroot = find(subsets, y);
+
+    if (subsets[xroot].rank < subsets[yroot].rank) {
+        subsets[xroot].parent = yroot;
+    } else if (subsets[xroot].rank > subsets[yroot].rank) {
+        subsets[yroot].parent = xroot;
+    } else {
+        subsets[yroot].parent = xroot;
+        subsets[xroot].rank++;
+    }
+}
+// Function to find the MST using Kruskal's algorithm
+vector<Edge> kruskalMST(vector<Edge>& edges, int V) {
+    // Sort the edges in non-decreasing order of their weight
+    sort(edges.begin(), edges.end(), compareEdges);
+    // Allocate memory for subsets
+    vector<Subset> subsets(V);
+    // Initialize each subset with its parent and rank
+    for (int i = 0; i < V; ++i) {
+        subsets[i].parent = i;
+        subsets[i].rank = 0;
+    }
+    // Initialize variables
+    vector<Edge> MST;
+    int e = 0, i = 0;
+
+    // Loop until we have (V-1) edges in the MST
+    while (e < V - 1 && i < edges.size()) {
+        // Get the next edge
+        Edge next_edge = edges[i++];
+
+        // Find the subsets of the source and destination vertices
+        int x = find(subsets, next_edge.src);
+        int y = find(subsets, next_edge.dest);
+
+        // If including this edge doesn't cause a cycle, include it in MST
+        if (x != y) {
+            MST.push_back(next_edge);
+            Union(subsets, x, y);
+            e++;
+        }
+    }
+
+    return MST;
+}
+
+int main() {
+    // Example graph representation
+    int V = 5; // Number of vertices
+    vector<Edge> edges = {
+        {0, 1, 10}, {0, 2, 6}, {0, 3, 5},
+        {1, 3, 15}, {2, 3, 4}, {3, 4, 8}, {1, 4, 7}, {2, 4, 12}
+    };
+
+    // Find the minimum spanning tree
+    vector<Edge> MST = kruskalMST(edges, V);
+
+    // Output the edges of the minimum spanning tree
+    cout << "Edges in the minimum spanning tree for the entire graph:" << endl;
+    for (const Edge& edge : MST) {
+        cout << edge.src << " - " << edge.dest << " : " << edge.weight << endl;
     }
 
     return 0;
