@@ -43,11 +43,9 @@ void BST::insert(int key){
 
         else if(key > t->data){
             t = t->rchild; }
-
         else{
             return; }
         }
-
         p = new Node;
         p->data = key;
         p->lchild = nullptr;
@@ -59,7 +57,6 @@ void BST::insert(int key){
             r->rchild = p;
         }
 }
-
 void BST::Inorder(Node *p){
     if(p){
     Inorder(p->lchild);
@@ -67,20 +64,15 @@ void BST::Inorder(Node *p){
     Inorder(p->rchild);
     }
 }
-
 int BST::GreatersumTree(Node *T , int sum){
     if(T == nullptr)
         return sum;
-    
     sum = GreatersumTree(T->rchild , sum); //traversing the right sub tree
-    
     //updating the value of Node
     sum +=T->data;
     T->data = sum;
-
     return GreatersumTree(T->lchild, sum); //traversing the left subtree
 }
-
 int main(){
     BST bst;
     bst.insert(50);
@@ -88,13 +80,23 @@ int main(){
     bst.insert(20);
     bst.insert(40);
     bst.insert(70);
-
     cout << "BST :";
     bst.Inorder(bst.getroot());
     cout<<endl;
-
     bst.GreatersumTree(bst.getroot(),0);
-
     cout<<"greater sum Tree :"<<endl;
     bst.Inorder(bst.getroot());
 }
+
+
+// Construct a Binary Search Tree (BST) for the following sequence of numbers-50, 70, 60, 20, 90, 10, 40, 100
+// sol:
+             50, 70, 60, 20, 90, 10, 40, 100
+   INorder ; 10 , 20 , 40 , 50 , 60 , 70 ,90 ,100
+           
+           TREE :
+
+                    50 
+            20                70
+        10      40       60         90
+                                        100
