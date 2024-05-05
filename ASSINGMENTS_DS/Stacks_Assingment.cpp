@@ -1,69 +1,72 @@
-// #include <iostream>
-// using namespace std;
+#include <iostream>
+using namespace std;
 
-// class Stack{
-//     private:
-//      int size;
-//      int stop;
-//      int *S;
-//     public:
-//      Stack(int size);
-//      ~Stack();
-//      void push(int x);
-//      int pop();
-//      void display();
-// };
-// Stack::Stack(int size){
-//     this->size = size;
-//     stop=-1;
-//     S = new int[size];
-// }
+class Stack{
+    private:
+     int size;
+     int stop;
+     int *S;
+    public:
+     Stack(int size);
+     ~Stack();
+     void push(int x);
+     int pop();
+     void display();
+};
+Stack::Stack(int size){
+    this->size = size;
+    stop=-1;
+    S = new int[size];
+}
 
-// Stack::~Stack(){
-//     delete [] S;
-// }
+Stack::~Stack(){
+    delete [] S;
+}
 
-// void Stack::push(int x){
-//     if(stop==size-1){
-//         cout<<"Stack Overflow"<<endl;
-//     }
-//     else{
-//         stop++;
-//         S[stop]=x;
+void Stack::push(int x){
+    if(stop==size-1){
+        cout<<"Stack Overflow"<<endl;
+    }
+    else{
+        stop++;
+        S[stop]=x;
         
-//     }
-// }
+    }
+}
 
-// int Stack::pop(){
-//     int x=-1;
-//     if(stop==-1){
-//         cout<<"Stack Underflow"<<endl;
-//     }
-//     else{
-//         x=S[stop];
-//         stop--;
-//     }
-//     return x;
-// }
+int Stack::pop(){
+    int x=-1;
+    if(stop==-1){
+        cout<<"Stack Underflow"<<endl;
+    }
+    else{
+        x=S[stop];
+        stop--;
+    }
+    return x;
+}
 
-// void Stack::display(){
-//     for(int i=stop;i>=0;i--){
-//         cout<<S[i]<<flush;
-//     }
-//     cout<<endl;
-// }
+void Stack::display(){
+    for(int i=stop;i>=0;i--){
+        cout<<S[i]<<flush;
+    }
+    cout<<endl;
+}
 
 // Question 1: Revesing a string using a stack 
-// int main(){
-//     string S = "Tutedude" ;
-//     int s = S.length();
-//     Stack stk(s);
-//     for(int i  =0 ; i<s ;i++){
-//          stk.push(S[i]);
-//     }
-//     stk.display();
-//     return 0;
-//     }
+int main(){
+    string S = "Tutedude" ;
+    int s = S.length();
+    Stack stk(s);
+    for(int i  = 0 ; i<s ;i++){
+         stk.push(S[i]);
+    }
+    while (s--) {
+        cout << char(stk.pop()); 
+    }
+    cout << endl;
+    return 0;
+    }
 
 
 
@@ -84,8 +87,8 @@ class Stack{
      bool isEmpty();
      void display();
      int stop();
-    //  void sort();
-    //  void insertSorted(int x);
+     void sort();
+     void insertSorted(int x);
 };
 Stack::Stack(int size){
     this->size = size;
@@ -131,60 +134,60 @@ int Stack::pop(){
 }
 
 void Stack::display(){
-    for(int i=top;i>=0;i--){
+    for(int i=0;i <= top;i++){
         cout<<S[i]<<"<-"<<flush;
     }
     cout<<endl;
 }
 
+
+
 // // Ouestion 2: Sorting a stack using recursion
-// // Sorting a stack using recursion
-// void Stack::sort() {
-//     if (stop != -1) {
-//         int temp = pop();
-//         sort();
-//         insertSorted(temp);
-//     }
-// }
 
-// void Stack::insertSorted(int x) {
-//     if (stop == -1 || x > S[stop]) {
-//         push(x);
-//         return;
-//     }
+// Sorting a stack using recursion
+void Stack::sort() {
+    if (top != -1) {
+        int temp = pop();
+        sort();
+        insertSorted(temp);
+    }
+}
 
-//     int temp = pop();
-//     insertSorted(x);
-//     push(temp);
-// }
+void Stack::insertSorted(int x) {
+    if (top == -1 || x > S[top]) {
+        push(x);
+        return;
+    }
 
-// int main(){
-//     int A[]={23,54,12,7,2,90,1};
-//     int n=sizeof(A)/sizeof(A[0]);
-//     Stack S(n);
-//     for (int i = 0; i < n; i++)
-//     {
-//        S.push(A[i]);
-//     }
-//     cout << "The sorted array is:" << endl;
-//     S.display();
-//     S.sort();
-//     cout<<"sorted Stack"<<endl;
-//     S.display();
-// }
+    int temp = pop();
+    insertSorted(x);
+    push(temp);
+}
+
+int main(){
+    int A[]={23,54,12,7,2,90,1};
+    int n=sizeof(A)/sizeof(A[0]);
+    Stack S(n);
+    for (int i = 0; i < n; i++)
+    {
+       S.push(A[i]);
+    }
+    cout << "The Array:" << endl;
+    S.display();
+    S.sort();
+    cout<<"sorted Stack"<<endl;
+    S.display();
+}
 
 
 //Question 4
-
-
-
 int LRproduct(int* arr, int n) {
-    vector<int> left(n, 0);
+    vector<int> left(n,    0);
     vector<int> right(n, 0);
-    Stack s(n);
+    Stack  s(n);
 
     // For the left side index
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n-1; ++i) {
         while (!s.isEmpty() && arr[s.stop()] <= arr[i]) {
             s.pop();
         }
@@ -222,8 +225,9 @@ int LRproduct(int* arr, int n) {
 
 int main() {
     // Sample input array
-    int arr[] = {1, 1, 1, 1, 0, 1, 1, 1, 1, 1};
+    int arr[] = {5,4,3,4,5};
     int n = sizeof(arr) / sizeof(arr[0]);
+    cout<<"size :"<<n<<endl;
 
     // Find the index with the maximum LRProduct
     int resultIndex = LRproduct(arr, n);
